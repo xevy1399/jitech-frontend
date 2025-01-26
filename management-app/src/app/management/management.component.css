@@ -1,0 +1,161 @@
+/* Ensure the table is responsive */
+.container {
+  max-width: 80%;
+  overflow-x: auto;
+  margin: 20px auto;
+}
+
+/* Filter style */
+.filter-input {
+  padding-top: 10px;
+  border-radius: 4px;
+}
+
+/* Table styles */
+.employee-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  margin-top: 20px;
+  border-radius: 8px;
+}
+
+/* Header cell styles */
+.header-cell {
+  font-weight: bold;
+  text-align: center;
+  padding: 12px;
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+/* Data cell styles */
+.cell {
+  padding: 12px;
+  text-align: left;
+  vertical-align: middle;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Action buttons cell */
+.action-buttons {
+  text-align: center;
+  padding: 12px;
+}
+
+button {
+  margin: 0 5px;
+}
+
+/* Action button icon sizes */
+.mat-icon {
+  font-size: 18px;
+}
+
+/* Styling the paginator */
+mat-paginator {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Hover effect for rows */
+tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 600px) {
+  .employee-table {
+    font-size: 14px;
+  }
+  .cell, .header-cell {
+    padding: 8px;
+  }
+  .action-buttons {
+    padding: 8px;
+  }
+}
+
+/* Background overlay */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Modal content styling */
+.modal-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 600px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Modal header styling */
+.modal-content h2 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #333;
+}
+
+/* Form field styling */
+mat-form-field {
+  margin-bottom: 16px;
+}
+
+/* Form field labels */
+.mat-label {
+  font-weight: 500;
+}
+
+/* Modal actions container */
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+/* Button styles */
+button {
+  font-weight: 500;
+}
+
+/* Cancel button styles */
+button.mat-button {
+  color: #555;
+  text-transform: none;
+}
+
+/* Save button styles */
+button.mat-raised-button {
+  text-transform: none;
+  font-weight: 500;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 600px) {
+  .modal-content {
+    padding: 15px;
+  }
+  .modal-content h2 {
+    font-size: 20px;
+  }
+  .modal-actions {
+    gap: 8px;
+  }
+}

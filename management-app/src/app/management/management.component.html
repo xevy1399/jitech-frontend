@@ -1,0 +1,114 @@
+<div class="container">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <!-- Filter Input -->
+    <mat-form-field appearance="outline" class="filter-input">
+      <mat-label>Filter</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Filter employees">
+    </mat-form-field>
+
+    <!-- Add Employee Button -->
+    <button mat-raised-button color="primary" (click)="openModal()">Add Employee</button>
+  </div>
+
+  <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 employee-table">
+    <!-- Employee ID Column -->
+  <ng-container matColumnDef="employeeId">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell"> Employee ID </th>
+    <td mat-cell *matCellDef="let element" class="cell">
+      <!-- Format employeeId with leading zeros -->
+      {{ formatEmployeeId(element.employeeId) }}
+    </td>
+  </ng-container>
+
+    <!-- First Name Column -->
+    <ng-container matColumnDef="firstName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell"> First Name </th>
+      <td mat-cell *matCellDef="let element" class="cell"> {{ element.firstName }} </td>
+    </ng-container>
+
+    <!-- Last Name Column -->
+    <ng-container matColumnDef="lastName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell"> Last Name </th>
+      <td mat-cell *matCellDef="let element" class="cell"> {{ element.lastName }} </td>
+    </ng-container>
+
+    <!-- Company Column -->
+    <ng-container matColumnDef="company">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell"> Company </th>
+      <td mat-cell *matCellDef="let element" class="cell"> {{ element.company }} </td>
+    </ng-container>
+
+    <!-- Department Column -->
+    <ng-container matColumnDef="department">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell"> Department </th>
+      <td mat-cell *matCellDef="let element" class="cell"> {{ element.department }} </td>
+    </ng-container>
+
+    <!-- Action Column -->
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef class="header-cell"> Action </th>
+      <td mat-cell *matCellDef="let element" class="action-buttons">
+        <button mat-icon-button color="primary" (click)="openModal(element)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" (click)="deleteEmployee(element._id)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <!-- Table Rows -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 25]" [pageSize]="5" showFirstLastButtons></mat-paginator>
+  
+  <!-- Modal -->
+  <div *ngIf="isModalOpen" class="modal-backdrop">
+    <div class="modal-content">
+      <h2>{{ isEditing ? 'Edit Employee' : 'Add Employee' }}</h2>
+      <form [formGroup]="employeeForm">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>Employee ID</mat-label>
+          <input matInput formControlName="employeeId" placeholder="Generated Employee ID" [readonly]="!isEditing">
+          <mat-error *ngIf="employeeForm.controls['employeeId'].hasError('required')">
+            Employee ID is required
+          </mat-error>
+          <mat-error *ngIf="employeeForm.controls['employeeId'].hasError('unique')">
+            Employee ID already exists
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>First Name</mat-label>
+          <input matInput formControlName="firstName" placeholder="Enter First Name">
+          <mat-error *ngIf="employeeForm.controls['firstName'].invalid">First Name is required</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>Last Name</mat-label>
+          <input matInput formControlName="lastName" placeholder="Enter Last Name">
+          <mat-error *ngIf="employeeForm.controls['lastName'].invalid">Last Name is required</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>Company</mat-label>
+          <input matInput formControlName="company" placeholder="Enter Company">
+          <mat-error *ngIf="employeeForm.controls['company'].invalid">Company is required</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>Department</mat-label>
+          <input matInput formControlName="department" placeholder="Enter Department">
+          <mat-error *ngIf="employeeForm.controls['department'].invalid">Department is required</mat-error>
+        </mat-form-field>
+      </form>
+
+      <div class="modal-actions">
+        <button mat-button (click)="closeModal()">Cancel</button>
+        <button mat-raised-button color="primary" (click)="saveEmployee()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
