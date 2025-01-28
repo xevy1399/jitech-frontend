@@ -71,12 +71,12 @@
       <form [formGroup]="employeeForm">
         <mat-form-field appearance="fill" class="w-100">
           <mat-label>Employee ID</mat-label>
-          <input matInput formControlName="employeeId" placeholder="Generated Employee ID" [readonly]="!isEditing">
+          <input matInput type="number" formControlName="employeeId" placeholder="Enter Employee ID"/>
           <mat-error *ngIf="employeeForm.controls['employeeId'].hasError('required')">
             Employee ID is required
           </mat-error>
-          <mat-error *ngIf="employeeForm.controls['employeeId'].hasError('unique')">
-            Employee ID already exists
+          <mat-error *ngIf="employeeForm.controls['employeeId'].hasError('pattern')">
+            Employee ID must contain only numbers.
           </mat-error>
         </mat-form-field>
 

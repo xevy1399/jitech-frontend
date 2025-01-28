@@ -24,7 +24,7 @@ export class ManagementComponent implements OnInit, AfterViewInit {
 
   constructor(private fb: FormBuilder, private employeeService: EmployeeService) {
     this.employeeForm = this.fb.group({
-      employeeId: ['', [Validators.required]],
+      employeeId: ['', [Validators.required, Validators.pattern('^[0-9]*$')]], // Allows only numbers
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       company: ['', Validators.required],
@@ -87,7 +87,7 @@ export class ManagementComponent implements OnInit, AfterViewInit {
       this.employeeForm.patchValue(employee);
     } else {
       this.employeeForm.reset();
-      this.getNextEmployeeId(); // Fetch and set the next employee ID
+      //this.getNextEmployeeId(); // Fetch and set the next employee ID
     }
 
     this.isModalOpen = true;
@@ -101,27 +101,37 @@ export class ManagementComponent implements OnInit, AfterViewInit {
   saveEmployee(): void {
     if (this.employeeForm.valid) {
       const newEmployee = this.employeeForm.value;
-
-      if (this.isEditing && this.currentEditEmployee) {
-        this.employeeService.updateEmployee(this.currentEditEmployee._id, newEmployee).subscribe(
-          () => {
-            this.loadEmployees();
-            this.closeModal();
-          },
-          (error) => console.error('Error updating employee:', error)
-        );
-      } else {
-        this.employeeService.addEmployee(newEmployee).subscribe(
-          () => {
-            this.loadEmployees();
-            this.closeModal();
-          },
-          (error) => console.error('Error saving employee:', error)
-        );
-      }
+  
+      // Check if the employeeId already exists
+      this.employeeService.checkEmployeeId(newEmployee.employeeId).subscribe(
+        (exists) => {
+          if (exists) {
+            alert('Employee ID already exists. Please choose another.');
+          } else {
+            if (this.isEditing && this.currentEditEmployee) {
+              this.employeeService.updateEmployee(this.currentEditEmployee._id, newEmployee).subscribe(
+                () => {
+                  this.loadEmployees();
+                  this.closeModal();
+                },
+                (error) => console.error('Error updating employee:', error)
+              );
+            } else {
+              this.employeeService.addEmployee(newEmployee).subscribe(
+                () => {
+                  this.loadEmployees();
+                  this.closeModal();
+                },
+                (error) => console.error('Error saving employee:', error)
+              );
+            }
+          }
+        },
+        (error) => console.error('Error checking employee ID:', error)
+      );
     }
-  }
-
+  }  
+  
   deleteEmployee(id: string): void {
     this.employeeService.deleteEmployee(id).subscribe(
       () => this.loadEmployees(),

@@ -18,6 +18,10 @@ export class EmployeeService {
     return this.http.get<number>(`${this.apiUrl}/next-id`);
   }
   
+  checkEmployeeId(employeeId: string): Observable<boolean> {
+    return this.http.get<boolean>(`${this.apiUrl}/exists/${employeeId}`);
+  }
+  
   addEmployee(employee: any): Observable<any> {
     return this.http.post<any>(this.apiUrl, employee);
   }
